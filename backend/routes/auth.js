@@ -64,4 +64,17 @@ router.get('/profile', (req, res) => {
   res.json(req.user);
 });
 
+router.put('/profile', async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, { new: true });
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
