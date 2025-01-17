@@ -44,10 +44,6 @@ passport.deserializeUser(async (id, done) => {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/signin' }), (req, res) => {
-  res.redirect('/profile');
-});
-
 router.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -57,9 +53,18 @@ router.get('/logout', (req, res) => {
   });
 });
 
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/signin' }), (req, res) => {
+  req.session.save((err) => {
+    if (err) {
+      console.error('Error saving session:', err);
+    }
+    res.redirect('/profile');
+  });
+});
+
 router.get('/profile', (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.redirect('/signin');
+    return res.status(401).json({ message: 'Unauthorized' });
   }
   res.json(req.user);
 });

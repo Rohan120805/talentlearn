@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Heading, Text, Input, Button, VStack, HStack, Tag, TagLabel, TagCloseButton } from '@chakra-ui/react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -10,21 +10,21 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get('/auth/profile');
-        setUser(response.data);
-      } catch (error) {
-        setError('Error fetching user');
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchUser = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get('/auth/profile', { withCredentials: true });
+      setUser(response.data);
+    } catch (error) {
+      setError('Error fetching user');
+      console.error('Error fetching user:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUser();
   }, [location]);
 
@@ -33,7 +33,7 @@ const Profile = () => {
 
     try {
       const updatedUser = { ...user, skills: [...user.skills, newSkill] };
-      await axios.put('/auth/profile', updatedUser);
+      await axios.put('/auth/profile', updatedUser, { withCredentials: true });
       setUser(updatedUser);
       setNewSkill('');
     } catch (error) {
@@ -45,7 +45,7 @@ const Profile = () => {
   const handleRemoveSkill = async (skillToRemove) => {
     try {
       const updatedUser = { ...user, skills: user.skills.filter(skill => skill !== skillToRemove) };
-      await axios.put('/auth/profile', updatedUser);
+      await axios.put('/auth/profile', updatedUser, { withCredentials: true });
       setUser(updatedUser);
     } catch (error) {
       setError('Error removing skill');

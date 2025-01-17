@@ -18,7 +18,12 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors()); // Use cors
 
-app.use(session({ secret: process.env.SESSION_SECRET || 'default_secret_key', resave: false, saveUninitialized: false }));
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'default_secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set secure to true if using HTTPS
+}));
 app.use(passport.initialize()); // Initialize passport
 app.use(passport.session()); // Use passport session
 
