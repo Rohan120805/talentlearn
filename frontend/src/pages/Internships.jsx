@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, SimpleGrid, Card, CardHeader, CardBody, Heading, Text, Button } from '@chakra-ui/react';
+import { Box, SimpleGrid, Card, CardHeader, CardBody, Heading, Text, Button, HStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -44,7 +44,14 @@ const Internships = () => {
               <Text>{internship.location}</Text>
               <Text mt={2} fontWeight="bold">Deadline:</Text>
               <Text>{new Date(internship.deadline).toLocaleDateString()}</Text>
-              <Button color="teal.500"><a href={internship.link} target="_blank" rel="noopener noreferrer">Apply</a></Button>
+              <HStack mt={4} justifyContent="space-between">
+                <Button color="teal.500">
+                  <a href={internship.link} target="_blank" rel="noopener noreferrer">Apply</a>
+                </Button>
+                <Button colorScheme="blue" onClick={() => navigate(`/internships/${internship._id}`)}>
+                  Review
+                </Button>
+              </HStack>
             </CardBody>
           </Card>
         ))}

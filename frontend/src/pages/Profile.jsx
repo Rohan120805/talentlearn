@@ -72,7 +72,7 @@ const Profile = () => {
       <Text>Email: {user.email}</Text>
       <Text>Skills:</Text>
       <HStack wrap="wrap" spacing={2} mt={2}>
-        {user.skills.map((skill, index) => (
+        {(user.skills || []).map((skill, index) => (
           <Tag key={index} size="lg" colorScheme="teal" borderRadius="full">
             <TagLabel>{skill}</TagLabel>
             <TagCloseButton onClick={() => handleRemoveSkill(skill)} />

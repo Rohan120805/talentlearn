@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import Internships from './pages/Internships';
 import SignIn from './pages/SignIn'; // Ensure this import is correct
 import Profile from './pages/Profile'; // Ensure this import is correct
+import SingleInternship from './pages/SingleInternship';
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/internships" element={<Internships />} />
-        <Route path="/signin" element={<SignIn />} /> {/* Ensure this route is correct */}
-        <Route path="/profile" element={<Profile />} /> {/* Ensure this route is correct */}
+        <Route path="/internships/:id" element={<SingleInternship />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Box>
   );

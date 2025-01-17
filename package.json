@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "deploy": "nodemon backend/server.js",
+    "start": "nodemon backend/server.js",
     "build": "npm --prefix frontend run build",
-    "dev": "npm --prefix frontend run dev"
+    "dev": "npm --prefix frontend run dev",
+    "deploy": "npm run build && npm run start"
   },
   "type": "module",
   "keywords": [],
