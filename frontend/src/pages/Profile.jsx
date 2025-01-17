@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Heading, Text, Input, Button, VStack } from '@chakra-ui/react';
+import { Box, Heading, Text, Input, Button, VStack, HStack, Tag, TagLabel, TagCloseButton } from '@chakra-ui/react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [newSkill, setNewSkill] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await axios.get('/auth/profile');
         setUser(response.data);
       } catch (error) {
+        setError('Error fetching user');
         console.error('Error fetching user:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [location]);
 
   const handleAddSkill = async () => {
     if (newSkill.trim() === '') return;
@@ -28,12 +37,32 @@ const Profile = () => {
       setUser(updatedUser);
       setNewSkill('');
     } catch (error) {
+      setError('Error adding skill');
       console.error('Error adding skill:', error);
     }
   };
 
-  if (!user) {
+  const handleRemoveSkill = async (skillToRemove) => {
+    try {
+      const updatedUser = { ...user, skills: user.skills.filter(skill => skill !== skillToRemove) };
+      await axios.put('/auth/profile', updatedUser);
+      setUser(updatedUser);
+    } catch (error) {
+      setError('Error removing skill');
+      console.error('Error removing skill:', error);
+    }
+  };
+
+  if (loading) {
     return <Box p={4}>Loading...</Box>;
+  }
+
+  if (error) {
+    return <Box p={4}>{error}</Box>;
+  }
+
+  if (!user) {
+    return <Box p={4}>No user data available</Box>;
   }
 
   return (
@@ -41,7 +70,15 @@ const Profile = () => {
       <Heading mb={4}>Profile</Heading>
       <Text>Name: {user.name}</Text>
       <Text>Email: {user.email}</Text>
-      <Text>Skills: {user.skills.join(', ')}</Text>
+      <Text>Skills:</Text>
+      <HStack wrap="wrap" spacing={2} mt={2}>
+        {user.skills.map((skill, index) => (
+          <Tag key={index} size="lg" colorScheme="teal" borderRadius="full">
+            <TagLabel>{skill}</TagLabel>
+            <TagCloseButton onClick={() => handleRemoveSkill(skill)} />
+          </Tag>
+        ))}
+      </HStack>
       <VStack mt={4} spacing={4}>
         <Input
           placeholder="Add a new skill"

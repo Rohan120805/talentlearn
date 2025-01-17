@@ -7,14 +7,14 @@ const router = express.Router();
 // POST a new internship
 router.post('/', async (req, res) => {
   const { title, companyName, description, skillsRequired, location, deadline, link } = req.body;
-  if (!title || !companyName || !description || !skillsRequired || !location || !deadline || !link) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
   try {
     const internship = new Internship({ title, companyName, description, skillsRequired, location, deadline, link });
     await internship.save();
     res.status(201).json(internship);
   } catch (error) {
+    if (error.name === "ValidationError") {
+      res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: error.message });
   }
 });
@@ -22,9 +22,6 @@ router.post('/', async (req, res) => {
 // PUT to update an existing internship
 router.put('/:id', async (req, res) => {
   const { title, companyName, description, skillsRequired, location, deadline, link } = req.body;
-  if (!title || !companyName || !description || !skillsRequired || !location || !deadline || !link) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
   try {
     const internship = await Internship.findByIdAndUpdate(req.params.id, { title, companyName, description, skillsRequired, location, deadline, link }, { new: true });
     if (!internship) {
@@ -32,6 +29,9 @@ router.put('/:id', async (req, res) => {
     }
     res.json(internship);
   } catch (error) {
+    if (error.name === "ValidationError") {
+      res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: error.message });
   }
 });
