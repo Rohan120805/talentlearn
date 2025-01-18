@@ -6,9 +6,9 @@ const router = express.Router();
 
 // POST a new internship
 router.post('/', async (req, res) => {
-  const { title, companyName, description, skillsRequired, location, deadline, link } = req.body;
+  const { title, companyName, description, skillsRequired, location, deadline, link, image } = req.body;
   try {
-    const internship = new Internship({ title, companyName, description, skillsRequired, location, deadline, link });
+    const internship = new Internship({ title, companyName, description, skillsRequired, location, deadline, link, image });
     await internship.save();
     res.status(201).json(internship);
   } catch (error) {
@@ -21,9 +21,9 @@ router.post('/', async (req, res) => {
 
 // PUT to update an existing internship
 router.put('/:id', async (req, res) => {
-  const { title, companyName, description, skillsRequired, location, deadline, link } = req.body;
+  const { title, companyName, description, skillsRequired, location, deadline, link, image } = req.body;
   try {
-    const internship = await Internship.findByIdAndUpdate(req.params.id, { title, companyName, description, skillsRequired, location, deadline, link }, { new: true });
+    const internship = await Internship.findByIdAndUpdate(req.params.id, { title, companyName, description, skillsRequired, location, deadline, link, image }, { new: true });
     if (!internship) {
       return res.status(404).json({ message: 'Internship not found' });
     }

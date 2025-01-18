@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn'; // Ensure this import is correct
 import Profile from './pages/Profile'; // Ensure this import is correct
 import SingleInternship from './pages/SingleInternship';
 import Modules from './pages/Modules';
+import SingleModule from './pages/SingleModule';
 
 function App() {
   return (
@@ -14,11 +15,12 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<HomePage/>}/>
-        <Route path="/internships" element={<Internships/>}/>
-        <Route path="/internships/:id" element={<SingleInternship/>}/>
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/internships" element={<Internships/>}/>
+        <Route path="/internships/:id" element={<SingleInternship/>}/>
         <Route path="/modules" element={<Modules/>}/>
+        <Route path="/modules/:id" element={<SingleModule/>}/>
       </Routes>
     </Box>
   );
