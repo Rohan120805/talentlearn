@@ -30,30 +30,19 @@ const Navbar = () => {
   return (
     <Box bg="teal.500" px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
-        <Heading as="h1" size="lg" color="white">
-          Talent Learn
-        </Heading>
+        <Heading as="h1" size="lg" color="white">Talent Learn</Heading>
         <Spacer />
         <Flex alignItems="center">
-          <Button as={Link} to="/" variant="ghost" color="white" mr={4}>
-            Home
-          </Button>
+          <Button as={Link} to="/" variant="ghost" color="white" mr={4}>Home</Button>
           {user ? (
             <>
-              <Button as={Link} to="/internships" variant="ghost" color="white" mr={4}>
-                Internships
-              </Button>
-              <Button as={Link} to="/profile" variant="ghost" color="white" mr={4}>
-                Profile
-              </Button>
-              <Button onClick={handleLogout} variant="ghost" color="white">
-                Logout
-              </Button>
+              <Button as={Link} to="/modules" variant="ghost" color="white" mr={4}>Modules</Button>
+              <Button as={Link} to="/internships" variant="ghost" color="white" mr={4}>Internships</Button>
+              <Button as={Link} to="/profile" variant="ghost" color="white" mr={4}>Profile</Button>
+              <Button onClick={handleLogout} variant="ghost" color="white">Logout</Button>
             </>
           ) : (
-            <Button as={Link} to="/signin" variant="ghost" color="white">
-              Sign In
-            </Button>
+            <Button as={Link} to="/signin" variant="ghost" color="white">Sign In</Button>
           )}
         </Flex>
       </Flex>

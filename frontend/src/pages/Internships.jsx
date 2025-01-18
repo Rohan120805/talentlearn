@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, SimpleGrid, Card, CardHeader, CardBody, Heading, Text, Button, HStack } from '@chakra-ui/react';
+import { Box, SimpleGrid, Card, CardHeader, CardBody, Heading, Text, Button, HStack, Tag, TagLabel } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -39,7 +39,13 @@ const Internships = () => {
             <CardBody>
               <Text>{internship.description}</Text>
               <Text mt={2} fontWeight="bold">Skills Required:</Text>
-              <Text>{internship.skillsRequired.join(', ')}</Text>
+              <HStack wrap="wrap" spacing={2} mt={2}>
+                {(internship.skillsRequired || []).map((skill, index) => (
+                  <Tag key={index} size="lg" colorScheme="teal" borderRadius="full">
+                    <TagLabel>{skill}</TagLabel>
+                  </Tag>
+                ))}
+              </HStack>
               <Text mt={2} fontWeight="bold">Location:</Text>
               <Text>{internship.location}</Text>
               <Text mt={2} fontWeight="bold">Deadline:</Text>
