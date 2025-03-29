@@ -76,7 +76,17 @@ const SingleInternship = () => {
       {hasAllSkills ? (
         <Text mt={4} color="green.500">You have all the required skills. Feel free to apply if you are pleased with the opportunity!</Text>
       ) : (
-        <Text mt={4} color="red.500">You are missing the following skills: {missingSkills.join(', ')}. Consider learning them to be a better fit for this opportunity.</Text>
+        <>
+          <Text mt={4} color="red.500">You are missing the following skills:</Text>
+          <HStack wrap="wrap" spacing={2} mt={2}>
+              {(missingSkills || []).map((skill, index) => (
+              <Tag key={index} size="lg" colorScheme="red" borderRadius="full">
+                  <TagLabel>{skill}</TagLabel>
+              </Tag>
+              ))}
+          </HStack>
+          <Text mt={4} color="red.500">You will gain them after completing this module</Text>
+        </>
       )}
       <HStack mt={4} justifyContent="space-between">
         <Button mt={4} color="teal.500">
