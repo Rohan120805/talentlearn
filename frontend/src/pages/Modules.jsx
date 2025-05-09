@@ -37,7 +37,26 @@ const Modules = () => {
     'linear(to-r, teal.500, blue.600)'
   );
 
-  // ... existing useEffect code ...
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const response = await axios.get('/auth/profile');
+        if (!response.data) {
+          navigate('/signin');
+        } else {
+          const modulesResponse = await axios.get('/modules');
+          setModules(modulesResponse.data);
+        }
+      } catch (error) {
+        console.error('Error fetching modules:', error);
+        navigate('/signin');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchModules();
+  }, [navigate]);
 
   return (
     <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh">

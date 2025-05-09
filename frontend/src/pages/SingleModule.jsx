@@ -73,7 +73,7 @@ const SingleModule = () => {
                           </Tag>
                           ))}
                       </HStack>
-                      <Text mt={4} color="red.500">You will gain them after completing this module</Text>
+                      <Text mt={4} color="green.500">You will gain them after completing this module</Text>
                     </>
                   )}
         </Box>
